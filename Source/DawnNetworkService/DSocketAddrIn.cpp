@@ -40,7 +40,16 @@ const std::string DSocketAddrIn::GetAddress() const
 {
 	return std::string(inet_ntoa(this->sockAddr.sin_addr));
 }
+
 const int DSocketAddrIn::GetPort() const
 {
 	return this->sockAddr.sin_port;
+}
+
+DSocketAddrIn* DSocketAddrIn::Clone() const
+{
+	DSocketAddrIn* Addr = new DSocketAddrIn();
+	Addr->AddrSize = this->AddrSize;
+	Addr->sockAddr = this->sockAddr;
+	return Addr;
 }

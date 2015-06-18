@@ -2,10 +2,13 @@
 
 #include "DNPacket.h"
 
+class DNLayerService;
 class DNLayer
 {
+protected:
+	DNLayerService *Service;
 public:
-	DNLayer();
+	DNLayer(DNLayerService *service);
 	~DNLayer();
 
 	virtual void Receive(DNTransData *Data) = 0;

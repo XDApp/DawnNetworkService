@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "DNLayer.h"
+#include "DNLayerService.h"
 #include "DSocketAddrIn.h"
 
-DNLayer::DNLayer()
+DNLayer::DNLayer(DNLayerService* service) :Service(service)
 {
 }
 

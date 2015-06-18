@@ -14,4 +14,5 @@ public:
 	const int GetAddrSize() const;
 	const std::string GetAddress() const; 
 	const int DSocketAddrIn::GetPort() const;
+	DSocketAddrIn* Clone()const;
 };

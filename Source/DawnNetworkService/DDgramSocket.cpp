@@ -10,6 +10,8 @@ DDgramSocket::DDgramSocket()
 	{
 		DSocketSystem::Exception("Invalid Socket!");
 	}
+	int iMode = 1;
+	ioctlsocket(this->sock, FIONBIO, (u_long FAR*) &iMode);
 }
 
 

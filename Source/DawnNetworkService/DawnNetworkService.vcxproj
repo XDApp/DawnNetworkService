@@ -84,8 +84,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDgramSocket.h" />
+    <ClInclude Include="DNCmdLayer.h" />
+    <ClInclude Include="DNDataLayer.h" />
     <ClInclude Include="DNLayer.h" />
+    <ClInclude Include="DNLayerService.h" />
+    <ClInclude Include="DNNetworkLayer.h" />
     <ClInclude Include="DNPacket.h" />
+    <ClInclude Include="DNPacketLayer.h" />
+    <ClInclude Include="DNServiceManager.h" />
+    <ClInclude Include="DNUserLayer.h" />
     <ClInclude Include="DSocketAddress.h" />
     <ClInclude Include="DSocketAddrIn.h" />
     <ClInclude Include="DSocketException.h" />
@@ -98,8 +105,15 @@
   <ItemGroup>
     <ClCompile Include="DawnNetworkService.cpp" />
     <ClCompile Include="DDgramSocket.cpp" />
+    <ClCompile Include="DNCmdLayer.cpp" />
+    <ClCompile Include="DNDataLayer.cpp" />
     <ClCompile Include="DNLayer.cpp" />
+    <ClCompile Include="DNLayerService.cpp" />
+    <ClCompile Include="DNNetworkLayer.cpp" />
     <ClCompile Include="DNPacket.cpp" />
+    <ClCompile Include="DNPacketLayer.cpp" />
+    <ClCompile Include="DNServiceManager.cpp" />
+    <ClCompile Include="DNUserLayer.cpp" />
     <ClCompile Include="DSocketAddress.cpp" />
     <ClCompile Include="DSocketAddrIn.cpp" />
     <ClCompile Include="DSocketException.cpp" />
