@@ -8,7 +8,7 @@ protected:
 	SOCKET sock;
 public:
 	DSocket();
-	virtual ~DSocket();
+	virtual ~DSocket(void) = 0;
 	void Send(const char* buf, int length, const DSocketAddrIn* addr);
 	int Recv(char* buf, int length, DSocketAddrIn* addr);
 	void Bind(const DSocketAddrIn* addr);

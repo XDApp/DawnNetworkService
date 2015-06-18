@@ -7,6 +7,7 @@
 #include "DSocket.h"
 #include "DDgramSocket.h"
 #include "DSocketAddrIn.h"
+#include "DNPacket.h"
 
 int main(int argc, char* argv[])
 {
@@ -18,7 +19,7 @@ int main(int argc, char* argv[])
 	DSocket *Socket = new DDgramSocket();
 	DSocket *Sender = new DDgramSocket();
 	std::cout << "Socket has been Created successfully." << std::endl;
-
+	/*
 
 	char* buf = "Hello, World!";
 	
@@ -48,22 +49,63 @@ int main(int argc, char* argv[])
 		}
 	};
 
-	if (argc > 1)
+	std::thread ThreadSend(SendFunc);
+	Socket->Bind(ListenAddr);
+	std::thread ThreadRecv(RecvFunc);
+	ThreadRecv.join();	
+	ThreadSend.join();
+
+
+*/
+
+	DNPacket Packet;
+	Packet.EncryptType = 0;
+	Packet.Size = sizeof(DNRequest);
+	Packet.Request.Cmd = 0;
+	Packet.Request.ID = 0;
+	strcpy(Packet.Request.Data, "Hello, World!");
+
+	auto SendFunc = [Sender, Packet, ClientAddr]()
 	{
-		std::cout << "Client Mode" << std::endl;
-		std::thread ThreadSend(SendFunc);
-		ThreadSend.join();
-	}
-	else
+		while (true)
+		{
+			Sender->Send((const char*)(&Packet), sizeof(Packet), ClientAddr);
+			std::cout << "Data Sent!" << std::endl;
+			Sleep(1000);
+		}
+	};
+	auto RecvFunc = [Socket, TargetAddr]()
 	{
-		std::cout << "Server Mode" << std::endl;
-		Socket->Bind(ListenAddr);
-		std::thread ThreadRecv(RecvFunc);
-		ThreadRecv.join();	
-	}
+		int len;
+		DNPacket Packet;
+		memset(&Packet, 0, sizeof(Packet));
+		while (true)
+		{
+			len = Socket->Recv((char*)&Packet, sizeof(Packet), TargetAddr);
+			
+			if (len > 0)
+			{
+				std::cout << "Data Length: " << len << std::endl;
+				std::cout << "RecvData from " << TargetAddr->GetAddress() << ":" << TargetAddr->GetPort() << std::endl;
+				std::cout << "EncryptType: " << static_cast<int>(Packet.EncryptType) << std::endl;
+				std::cout << "Size: " << static_cast<int>(Packet.Size) << std::endl;
+				std::cout << "Command: " << static_cast<int>(Packet.Request.Cmd) << std::endl;
+				std::cout << "ID: " << static_cast<int>(Packet.Request.ID) << std::endl;
+				std::cout << "Data: " << Packet.Request.Data << std::endl;
+
+			}
+		}
+	};
 	
+	std::thread ThreadSend(SendFunc);
+	Socket->Bind(ListenAddr);
+	std::thread ThreadRecv(RecvFunc);
+	ThreadRecv.join();
+	ThreadSend.join();
 
 	Sleep(10000);
+
+
 
 	delete Socket;
 	delete Sender;

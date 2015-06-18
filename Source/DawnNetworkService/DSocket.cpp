@@ -6,9 +6,9 @@
 DSocket::DSocket()
 {
 }
-
 DSocket::~DSocket()
 {
+
 }
 
 void DSocket::Send(const char* buf, int length, const DSocketAddrIn* addr)
