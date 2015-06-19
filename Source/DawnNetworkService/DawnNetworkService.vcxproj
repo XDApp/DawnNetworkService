@@ -85,7 +85,10 @@
   <ItemGroup>
     <ClInclude Include="DDgramSocket.h" />
     <ClInclude Include="DDgramSocketI.h" />
+    <ClInclude Include="DNCmd.h" />
+    <ClInclude Include="DNCmdEcho.h" />
     <ClInclude Include="DNCmdLayer.h" />
+    <ClInclude Include="DNCmdProcessor.h" />
     <ClInclude Include="DNDataLayer.h" />
     <ClInclude Include="DNLayer.h" />
     <ClInclude Include="DNLayerService.h" />
@@ -108,7 +111,10 @@
     <ClCompile Include="DawnNetworkService.cpp" />
     <ClCompile Include="DDgramSocket.cpp" />
     <ClCompile Include="DDgramSocketI.cpp" />
+    <ClCompile Include="DNCmd.cpp" />
+    <ClCompile Include="DNCmdEcho.cpp" />
     <ClCompile Include="DNCmdLayer.cpp" />
+    <ClCompile Include="DNCmdProcessor.cpp" />
     <ClCompile Include="DNDataLayer.cpp" />
     <ClCompile Include="DNLayer.cpp" />
     <ClCompile Include="DNLayerService.cpp" />

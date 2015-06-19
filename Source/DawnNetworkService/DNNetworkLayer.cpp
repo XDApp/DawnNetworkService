@@ -4,6 +4,7 @@
 #include "DSocket.h"
 #include "DNUserLayer.h"
 #include "DNPacket.h"
+#include "DNCmd.h"
 
 DNNetworkLayer::DNNetworkLayer(DNLayerService *service) :DNLayer(service)
 {
@@ -22,9 +23,9 @@ void DNNetworkLayer::Receive(DNTransData *Data)
 extern int SendCount;
 void DNNetworkLayer::Send(DNTransData *Data)
 {
-	while (!this->Service->SocketLock.try_lock())Sleep(100);
+	//while (!this->Service->SocketLock.try_lock())Sleep(50);
 	this->Service->ListenSocket->Send((const char*)(&Data->Packet), Data->Size, Data->Addr);
-	this->Service->SocketLock.unlock();
+	//this->Service->SocketLock.unlock();
 	if (Data->Cmd == (DNCommand)DNCmdType::Echo) SendCount++;
 	this->DestroyPacket(Data);
 }

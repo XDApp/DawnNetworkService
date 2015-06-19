@@ -2,6 +2,8 @@
 
 class DSocket;
 class DNLayer;
+class DNCmdProcessor;
+
 class DNLayerService
 {
 public:
@@ -15,5 +17,7 @@ public:
 
 	DSocket *ListenSocket;
 	std::mutex SocketLock;
+
+	DNCmdProcessor *Processor;
 };
 

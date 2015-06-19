@@ -21,5 +21,7 @@ public:
 private:
 	void RunSocket();
 	void StopSocket();
+
+	void RegisterCommands();
 };
 

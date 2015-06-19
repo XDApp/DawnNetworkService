@@ -13,6 +13,8 @@
 #include "DDgramSocketI.h"
 #include "DSocketAddrIn.h"
 #include "DSocketException.h"
+#include "DNCmdProcessor.h"
+#include "DNCmdEcho.h"
 
 DNServiceManager::DNServiceManager()
 {
@@ -21,6 +23,12 @@ DNServiceManager::DNServiceManager()
 
 DNServiceManager::~DNServiceManager()
 {
+}
+
+void DNServiceManager::RegisterCommands()
+{
+	this->Service->Processor->Register(DNCmdType::Echo, new DNCmdEcho(this->Service));
+	this->Service->Processor->Register(DNCmdType::ReplyEcho, new DNCmdEchoReply(this->Service));
 }
 
 void DNServiceManager::RunServ()
@@ -39,6 +47,9 @@ void DNServiceManager::RunServ()
 	this->Service->CMDLayer = cmdLayer;
 	this->Service->UserLayer = userLayer;
 
+	this->Service->Processor = new DNCmdProcessor();
+	this->RegisterCommands();
+
 	DSocketSystem::Initialize();
 
 	std::cout << "[Log] Dawn Network Service Initialized" << std::endl;
@@ -50,6 +61,14 @@ void DNServiceManager::StopServ()
 {
 	this->StopSocket();
 	DSocketSystem::Dispose();
+
+	delete this->Service->Processor;
+
+	delete this->Service->NetworkLayer;
+	delete this->Service->DataLayer;
+	delete this->Service->PacketLayer;
+	delete this->Service->CMDLayer;
+	delete this->Service->UserLayer;
 	std::cout << "[Log] Dawn Network Service Disposed" << std::endl;
 }
 
@@ -69,9 +88,9 @@ void DNServiceManager::RunSocket()
 
 		while (this->Receiving)
 		{
-			while (!this->Service->SocketLock.try_lock())Sleep(100);
+			//while (!this->Service->SocketLock.try_lock())Sleep(10);
 			len = this->Service->ListenSocket->Recv((char*)&Packet, sizeof(Packet), AddrIn);
-			this->Service->SocketLock.unlock();
+			//this->Service->SocketLock.unlock();
 			if (len > 0)
 			{
 				DNTransData *TransData = new DNTransData;
@@ -79,7 +98,10 @@ void DNServiceManager::RunSocket()
 				TransData->Packet = Packet;
 				this->Service->NetworkLayer->Receive(TransData);
 			}
-			if (len == -1)Sleep(100);
+			if (len == -1)
+			{
+				Sleep(500);
+			}
 		}
 		this->ThreadDisposed = true;
 		return;
