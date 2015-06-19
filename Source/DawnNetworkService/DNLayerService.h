@@ -12,6 +12,8 @@ public:
 	DNLayer *DataLayer;
 	DNLayer *CMDLayer;
 	DNLayer *UserLayer;
+
 	DSocket *ListenSocket;
+	std::mutex SocketLock;
 };
 

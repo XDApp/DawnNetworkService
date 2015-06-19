@@ -10,6 +10,7 @@
 #include "DSocketSystem.h"
 
 #include "DDgramSocket.h"
+#include "DDgramSocketI.h"
 #include "DSocketAddrIn.h"
 #include "DSocketException.h"
 
@@ -54,10 +55,9 @@ void DNServiceManager::StopServ()
 
 void DNServiceManager::RunSocket()
 {
-	this->Socket = new DDgramSocket();
+	this->Service->ListenSocket = new DDgramSocketI();
 	this->ListenAddr = new DSocketAddrIn(8000);
-	this->Socket->Bind(this->ListenAddr);
-	this->Service->ListenSocket = this->Socket;
+	this->Service->ListenSocket->Bind(this->ListenAddr);
 	std::cout << "[Log] Socket Initialized" << std::endl;
 	this->Receiving = true;
 	auto RecvFunc = [this]()
@@ -66,9 +66,12 @@ void DNServiceManager::RunSocket()
 		DNPacket Packet;
 		DSocketAddrIn *AddrIn = new DSocketAddrIn();
 		memset(&Packet, 0, sizeof(Packet));
+
 		while (this->Receiving)
 		{
-			len = this->Socket->Recv((char*)&Packet, sizeof(Packet), AddrIn);
+			while (!this->Service->SocketLock.try_lock())Sleep(100);
+			len = this->Service->ListenSocket->Recv((char*)&Packet, sizeof(Packet), AddrIn);
+			this->Service->SocketLock.unlock();
 			if (len > 0)
 			{
 				DNTransData *TransData = new DNTransData;
@@ -76,10 +79,10 @@ void DNServiceManager::RunSocket()
 				TransData->Packet = Packet;
 				this->Service->NetworkLayer->Receive(TransData);
 			}
+			if (len == -1)Sleep(100);
 		}
 		this->ThreadDisposed = true;
 		return;
-		
 	};
 	this->ListenThread = new std::thread(RecvFunc);
 	std::cout << "[Log] Socket Receiving" << std::endl;
@@ -92,7 +95,7 @@ void DNServiceManager::StopSocket()
 	this->ThreadDisposed = false;
 	while (this->ThreadDisposed);
 	this->ListenThread->detach();
-	delete this->Socket;
+	delete this->Service->ListenSocket;
 	delete this->ListenThread;
 	delete this->ListenAddr;
 	std::cout << "[Log] Socket Disposed" << std::endl;

@@ -72,6 +72,12 @@
     <ClInclude Include="DNServiceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DSocketBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DDgramSocketI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -126,6 +132,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DNServiceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSocketBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DDgramSocketI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

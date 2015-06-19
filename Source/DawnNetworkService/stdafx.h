@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <tchar.h>
 #include <string.h>
+#include <time.h>
 
 #include <winsock2.h>
 #pragma comment(lib, "WS2_32.lib")

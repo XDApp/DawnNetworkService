@@ -18,5 +18,6 @@ void DNPacketLayer::Receive(DNTransData *Data)
 
 void DNPacketLayer::Send(DNTransData *Data)
 {
+	Data->Size += sizeof(Data->Size) + sizeof(Data->EncryptType);
 	this->Service->NetworkLayer->Send(Data);
 }

@@ -7,7 +7,6 @@ class DNServiceManager
 {
 public:
 	DNLayerService *Service;
-	DDgramSocket *Socket;
 	bool Receiving;
 	bool ThreadDisposed;
 private:
