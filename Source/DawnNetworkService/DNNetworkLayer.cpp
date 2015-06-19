@@ -26,6 +26,5 @@ void DNNetworkLayer::Send(DNTransData *Data)
 	//while (!this->Service->SocketLock.try_lock())Sleep(50);
 	this->Service->ListenSocket->Send((const char*)(&Data->Packet), Data->Size, Data->Addr);
 	//this->Service->SocketLock.unlock();
-	if (Data->Cmd == (DNCommand)DNCmdType::Echo) SendCount++;
 	this->DestroyPacket(Data);
 }

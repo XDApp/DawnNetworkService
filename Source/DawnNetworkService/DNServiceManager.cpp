@@ -98,7 +98,7 @@ void DNServiceManager::RunSocket()
 				TransData->Packet = Packet;
 				this->Service->NetworkLayer->Receive(TransData);
 			}
-			if (len == -1)
+			if (len <= 0)
 			{
 				Sleep(500);
 			}
