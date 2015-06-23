@@ -91,8 +91,6 @@
     <ClInclude Include="DNCmdProcessor.h" />
     <ClInclude Include="DNCmdToken.h" />
     <ClInclude Include="DNDataLayer.h" />
-    <ClInclude Include="DNEventHandler.h" />
-    <ClInclude Include="DNEventManager.h" />
     <ClInclude Include="DNLayer.h" />
     <ClInclude Include="DNLayerService.h" />
     <ClInclude Include="DNNetworkLayer.h" />
@@ -120,8 +118,6 @@
     <ClCompile Include="DNCmdProcessor.cpp" />
     <ClCompile Include="DNCmdToken.cpp" />
     <ClCompile Include="DNDataLayer.cpp" />
-    <ClCompile Include="DNEventHandler.cpp" />
-    <ClCompile Include="DNEventManager.cpp" />
     <ClCompile Include="DNLayer.cpp" />
     <ClCompile Include="DNLayerService.cpp" />
     <ClCompile Include="DNNetworkLayer.cpp" />

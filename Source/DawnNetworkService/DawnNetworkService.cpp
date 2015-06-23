@@ -9,59 +9,36 @@
 #include "DNLayerService.h"
 #include "DNLayer.h"
 #include "DNUserLayer.h"
-#include "DNCmdEcho.h"
+#include "DNCmdToken.h"
 #include "DNCmdProcessor.h"
-
-int EchoCount;
-int SendCount;
+#include "DNCmdEcho.h"
+#include "DNEventManager.h"
+#include "DNEventHandler.h"
 
 int main(int argc, char* argv[])
 {
-	const int PacketToRecv = 10000;
-	EchoCount = 0;
-	SendCount = 0;
-	int Echo = 0, Send = 0;
+	bool Recved = false;
 	DNServiceManager *Manager = new DNServiceManager();
 	Manager->RunServ();
-	DNUserLayer *userLayer = dynamic_cast<DNUserLayer*>(Manager->Service->UserLayer);
 
-	std::cout << "Echo Sending Example" << std::endl;
-	auto SendFunc = [&Manager]()
-	{
-		std::cout << "Sending..." << std::endl;
-		DNCmdEcho* cmd = dynamic_cast<DNCmdEcho*>(Manager->Service->Processor->GetCmd(DNCmdType::Echo));
-		while (true)
-		{
-			SendCount++;
-			cmd->Send(new DSocketAddrIn("192.168.0.101", 8000));
-			Sleep(1);
-		}
-	};
-	std::thread ThreadSend(SendFunc);
-	int _EchoCount, _SendCount;
-	time_t ori = time(nullptr);
-	while (true)
-	{
-		_EchoCount = EchoCount;
-		_SendCount = SendCount;
-		Echo += _EchoCount;
-		Send += _SendCount;
-		EchoCount = SendCount = 0;
-		Sleep(1000);
-		std::cout << "Send " << Send << " Packets" << "\t\t";
-		std::cout << "Recv " << Echo << " Packets" << std::endl;
-		if (Echo >= PacketToRecv)
-		{
-			time_t now = time(nullptr);
-			std::cout << "Recv " << Echo << " Packets in " << (now - ori) << " seconds" << std::endl;
-			std::cout << "Loss: " << (float)Echo / Send << std::endl;
-			ori = time(nullptr);
-			Echo = Send = 0;
-		}
-	}
+	auto TokenCmd = dynamic_cast<DNCmdToken*>(Manager->Service->Processor->GetCmd(DNCmdType::Token));
+	auto EchoCmd = dynamic_cast<DNCmdEcho*>(Manager->Service->Processor->GetCmd(DNCmdType::Echo));
+	auto REchoCmd = dynamic_cast<DNCmdEchoReply*>(Manager->Service->Processor->GetCmd(DNCmdType::ReplyEcho));
 	
-	ThreadSend.detach();
+	auto Handler = new DNEventHandler([&Recved](DNTransData* Data)
+	{
+		Recved = true;
+	});
+	REchoCmd->WhenRecv->AddHandler(Handler);
+	time_t Send = time(nullptr);
+
+	EchoCmd->Send(new DSocketAddrIn("127.0.0.1", 8000));
+	while (!Recved)Sleep(1);
+	time_t Now = time(nullptr);
+	std::cout << "RecvTime: " << Now - Send << std::endl;
+	Sleep(10000);
 	Manager->StopServ();
+
 	system("PAUSE");
 	return 0;
 }

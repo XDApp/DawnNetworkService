@@ -3,6 +3,7 @@
 #include "DNLayer.h"
 #include "DNUserLayer.h"
 #include "DNLayerService.h"
+#include "DSocketAddrIn.h"
 
 DNCmd::DNCmd(DNLayerService* service) :Service(service)
 {

@@ -9,7 +9,9 @@ class DSocketAddrIn;
 enum class DNCmdType
 {
 	Echo = (DNCommand)0,
-	ReplyEcho
+	ReplyEcho,
+	Token,
+	ReplyToken
 };
 
 class DNCmd

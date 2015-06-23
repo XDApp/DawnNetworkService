@@ -20,7 +20,6 @@ void DNNetworkLayer::Receive(DNTransData *Data)
 	this->Service->PacketLayer->Receive(Data);
 }
 
-extern int SendCount;
 void DNNetworkLayer::Send(DNTransData *Data)
 {
 	//while (!this->Service->SocketLock.try_lock())Sleep(50);

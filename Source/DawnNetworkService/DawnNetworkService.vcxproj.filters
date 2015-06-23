@@ -87,6 +87,15 @@
     <ClInclude Include="DNCmdEcho.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DNCmdToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DNEventManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DNEventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -156,6 +165,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DNCmdEcho.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DNCmdToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DNEventManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DNEventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

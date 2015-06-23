@@ -15,6 +15,7 @@
 #include "DSocketException.h"
 #include "DNCmdProcessor.h"
 #include "DNCmdEcho.h"
+#include "DNCmdToken.h"
 
 DNServiceManager::DNServiceManager()
 {
@@ -29,6 +30,8 @@ void DNServiceManager::RegisterCommands()
 {
 	this->Service->Processor->Register(DNCmdType::Echo, new DNCmdEcho(this->Service));
 	this->Service->Processor->Register(DNCmdType::ReplyEcho, new DNCmdEchoReply(this->Service));
+	this->Service->Processor->Register(DNCmdType::Token, new DNCmdToken(this->Service));
+	this->Service->Processor->Register(DNCmdType::ReplyToken, new DNCmdTokenReply(this->Service));
 }
 
 void DNServiceManager::RunServ()

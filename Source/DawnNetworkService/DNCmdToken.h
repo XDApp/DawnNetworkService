@@ -1,26 +1,22 @@
 #pragma once
 #include "DNCmd.h"
-
-class DNEventManager;
-class DNCmdEcho :
+class DNCmdToken :
 	public DNCmd
 {
 public:
-	DNCmdEcho(DNLayerService* service);
-	~DNCmdEcho();
+	DNCmdToken(DNLayerService* service);
+	~DNCmdToken();
 	virtual void Send(DSocketAddrIn *Addr);
 	virtual void Recv(DNTransData* Data);
 };
 
-class DNCmdEchoReply :
+class DNCmdTokenReply :
 	public DNCmd
 {
 public:
-	DNCmdEchoReply(DNLayerService* service);
-	~DNCmdEchoReply();
+	DNCmdTokenReply(DNLayerService* service);
+	~DNCmdTokenReply();
 	virtual void Send(DSocketAddrIn *Addr);
 	virtual void Recv(DNTransData* Data);
-
-	DNEventManager *WhenRecv;
 };
 

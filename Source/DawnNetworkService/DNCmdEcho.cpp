@@ -3,6 +3,7 @@
 #include "DNCmdProcessor.h"
 #include "DNPacket.h"
 #include "DSocketAddrIn.h"
+#include "DNEventManager.h"
 
 DNCmdEcho::DNCmdEcho(DNLayerService* service) :DNCmd(service)
 {
@@ -27,14 +28,18 @@ void DNCmdEcho::Recv(DNTransData* Data)
 	Cmd->Send(Data->Addr->Clone());
 }
 
-DNCmdEchoReply::DNCmdEchoReply(DNLayerService* service) :DNCmd(service)
+DNCmdEchoReply::DNCmdEchoReply(DNLayerService* service) 
+	: DNCmd(service),
+	WhenRecv(new DNEventManager())
 {
 }
 
 
 DNCmdEchoReply::~DNCmdEchoReply()
 {
+	delete WhenRecv;
 }
+
 void DNCmdEchoReply::Send(DSocketAddrIn *Addr)
 {
 	DNTransData *Data = this->CreatePacket();
@@ -44,10 +49,7 @@ void DNCmdEchoReply::Send(DSocketAddrIn *Addr)
 	this->Service->UserLayer->Send(Data);
 }
 
-
-extern int EchoCount;
-
 void DNCmdEchoReply::Recv(DNTransData* Data)
 {
-	EchoCount++;
+	WhenRecv->Call(Data);
 }
