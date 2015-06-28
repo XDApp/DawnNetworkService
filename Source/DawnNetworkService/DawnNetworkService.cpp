@@ -21,22 +21,6 @@ int main(int argc, char* argv[])
 	DNServiceManager *Manager = new DNServiceManager();
 	Manager->RunServ();
 
-	auto TokenCmd = dynamic_cast<DNCmdToken*>(Manager->Service->Processor->GetCmd(DNCmdType::Token));
-	auto EchoCmd = dynamic_cast<DNCmdEcho*>(Manager->Service->Processor->GetCmd(DNCmdType::Echo));
-	auto REchoCmd = dynamic_cast<DNCmdEchoReply*>(Manager->Service->Processor->GetCmd(DNCmdType::ReplyEcho));
-	
-	auto Handler = new DNEventHandler([&Recved](DNTransData* Data)
-	{
-		Recved = true;
-	});
-	REchoCmd->WhenRecv->AddHandler(Handler);
-	time_t Send = time(nullptr);
-
-	EchoCmd->Send(new DSocketAddrIn("127.0.0.1", 8000));
-	while (!Recved)Sleep(1);
-	time_t Now = time(nullptr);
-	std::cout << "RecvTime: " << Now - Send << std::endl;
-	Sleep(10000);
 	Manager->StopServ();
 
 	system("PAUSE");
