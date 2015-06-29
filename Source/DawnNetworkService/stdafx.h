@@ -24,3 +24,11 @@
 #include <cmath>
 #include <vector>
 // TODO: reference additional headers your program requires here
+
+#include <openssl/rsa.h>
+#include <openssl/err.h>
+#include <openssl/pem.h>
+#include <openssl/x509.h>
+
+#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "ssleay32.lib")
