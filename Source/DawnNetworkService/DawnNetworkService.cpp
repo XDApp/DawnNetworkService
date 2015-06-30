@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	RSA *rsa;
 	rsa = RSA_generate_key(1024, RSA_F4, nullptr, nullptr);
 	EVP_PKEY_assign_RSA(pkey, rsa);
-
+	
 	Manager->StopServ();
 
 	system("PAUSE");
