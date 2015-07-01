@@ -160,6 +160,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DConfig.h" />
     <ClInclude Include="DDgramSocket.h" />
     <ClInclude Include="DDgramSocketI.h" />
     <ClInclude Include="DException.h" />
@@ -194,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DawnNetworkService.cpp" />
+    <ClCompile Include="DConfig.cpp" />
     <ClCompile Include="DDgramSocket.cpp" />
     <ClCompile Include="DDgramSocketI.cpp" />
     <ClCompile Include="DException.cpp" />

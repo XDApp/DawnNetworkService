@@ -18,10 +18,11 @@
 #include "DRSA.h"
 #include "DResource.h"
 
+#include "DConfig.h"
 
 int main(int argc, char* argv[])
 {
-	bool Recved = false;
+	/*
 	DNServiceManager *Manager = new DNServiceManager();
 	Manager->RunServ();
 
@@ -38,7 +39,9 @@ int main(int argc, char* argv[])
 	auto evp_key = DRSA::ToEVP(key);
 
 	Manager->StopServ();
-
+	*/
+	DConfig *config = new DConfig();
+	config->Generate();
 	system("PAUSE");
 	return 0;
 }
