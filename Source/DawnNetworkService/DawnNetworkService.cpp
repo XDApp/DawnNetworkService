@@ -15,17 +15,19 @@
 #include "DNEventManager.h"
 #include "DNEventHandler.h"
 
+#include "DRSA.h"
+
 int main(int argc, char* argv[])
 {
 	bool Recved = false;
 	DNServiceManager *Manager = new DNServiceManager();
 	Manager->RunServ();
-	EVP_PKEY *pkey;
-	pkey = EVP_PKEY_new();
-	RSA *rsa;
-	rsa = RSA_generate_key(1024, RSA_F4, nullptr, nullptr);
-	EVP_PKEY_assign_RSA(pkey, rsa);
-	
+
+	DRSA::Randomize();
+	auto key = DRSA::CreateKey(DRSA::GenerateRandString(), 1024);
+	DRSA::SavePubKey(key, "Public.DRSAKey");
+	DRSA::SavePriKey(key, "Private.DRSAKey", "123456");
+
 	Manager->StopServ();
 
 	system("PAUSE");
