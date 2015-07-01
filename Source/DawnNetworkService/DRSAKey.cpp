@@ -13,6 +13,12 @@ DRSAKey::DRSAKey(const std::string &Rand_Str, unsigned long Key_Length)
 	}
 }
 
+DRSAKey::DRSAKey(RSA *Rsa)
+	:rsa(Rsa)
+{
+
+}
+
 
 DRSAKey::~DRSAKey()
 {
