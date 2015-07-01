@@ -16,6 +16,7 @@
 #include "DNEventHandler.h"
 
 #include "DRSA.h"
+#include "DResource.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,8 +26,15 @@ int main(int argc, char* argv[])
 
 	DRSA::Randomize();
 	auto key = DRSA::CreateKey(DRSA::GenerateRandString(), 1024);
-	DRSA::SavePubKey(key, "Public.DRSAKey");
-	DRSA::SavePriKey(key, "Private.DRSAKey", "123456");
+	std::string CurrentPath = DResource::UnicodeToANSI(DResource::GetPath(nullptr)) + "\\";
+	DRSA::SavePubKey(key, CurrentPath + "Public.DRSAKey");
+	DRSA::SavePriKey(key, CurrentPath + "Private.DRSAKey", "123456");
+
+	key = nullptr;
+
+	key = DRSA::LoadPriKey(CurrentPath + "Private.DRSAKey", "123456");
+
+	auto evp_key = DRSA::ToEVP(key);
 
 	Manager->StopServ();
 

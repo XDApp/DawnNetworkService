@@ -179,6 +179,7 @@
     <ClInclude Include="DNPacketLayer.h" />
     <ClInclude Include="DNServiceManager.h" />
     <ClInclude Include="DNUserLayer.h" />
+    <ClInclude Include="DResource.h" />
     <ClInclude Include="DRSA.h" />
     <ClInclude Include="DRSAKey.h" />
     <ClInclude Include="DSocketAddress.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="DNPacketLayer.cpp" />
     <ClCompile Include="DNServiceManager.cpp" />
     <ClCompile Include="DNUserLayer.cpp" />
+    <ClCompile Include="DResource.cpp" />
     <ClCompile Include="DRSA.cpp" />
     <ClCompile Include="DRSAKey.cpp" />
     <ClCompile Include="DSocketAddress.cpp" />

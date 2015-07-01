@@ -108,6 +108,9 @@
     <ClInclude Include="DRSAKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -198,6 +201,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DRSAKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
