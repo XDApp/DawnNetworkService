@@ -11,8 +11,6 @@ DRSA::DRSA()
 DRSA::~DRSA()
 {
 }
-//	int generate_key_files(const char *pub_keyfile, const char *pri_keyfile,
-// const unsigned char *passwd, int passwd_len)
 
 void DRSA::Randomize()
 {

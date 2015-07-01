@@ -16,6 +16,7 @@ DNCmdEcho::~DNCmdEcho()
 void DNCmdEcho::Send(DSocketAddrIn *Addr)
 {
 	DNTransData *Data = this->CreatePacket();
+	Data->EncryptType = DNEncryptType::None;
 	Data->Addr = Addr;
 	Data->Cmd = (DNCommand)DNCmdType::Echo;
 	Data->Size = 0;
@@ -43,6 +44,7 @@ DNCmdEchoReply::~DNCmdEchoReply()
 void DNCmdEchoReply::Send(DSocketAddrIn *Addr)
 {
 	DNTransData *Data = this->CreatePacket();
+	Data->EncryptType = DNEncryptType::None;
 	Data->Addr = Addr;
 	Data->Cmd = (DNCommand)DNCmdType::ReplyEcho;
 	Data->Size = 0;

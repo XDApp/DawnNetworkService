@@ -17,6 +17,7 @@ DNCmdToken::~DNCmdToken()
 void DNCmdToken::Send(DSocketAddrIn *Addr)
 {
 	DNTransData *Data = this->CreatePacket();
+	Data->EncryptType = DNEncryptType::RSA;
 	Data->Addr = Addr;
 	Data->Cmd = (DNCommand)DNCmdType::Token;
 	Data->Size = 0;
@@ -43,6 +44,7 @@ const int TokenSize = 20;
 void DNCmdTokenReply::Send(DSocketAddrIn *Addr)
 {
 	DNTransData *Data = this->CreatePacket();
+	Data->EncryptType = DNEncryptType::RSA;
 	Data->Addr = Addr;
 	Data->Cmd = (DNCommand)DNCmdType::ReplyToken;
 

@@ -1,10 +1,16 @@
 #pragma once
 
 typedef unsigned short DNPacketSize;
-typedef unsigned char DNEncryptType;
 typedef unsigned char DNCommand;
 typedef unsigned char DNMessageID;
 typedef char DNData;
+
+enum class DNEncryptType : unsigned char
+{
+	None = 0,
+	RSA = 1, Sync = 2, Unknown = 3
+};
+
 const unsigned int DNPacketLength = 1300;
 const unsigned int DNRequestLength = 1290;
 #pragma pack(push, 1)
@@ -28,14 +34,14 @@ struct DNPacket
 
 struct DNTransData
 {
-	DNPacket Packet;
+	DNPacket Packet;										//Network Layer Packet
 
-	DNPacketSize &Size = Packet.Size;
-	DNEncryptType &EncryptType = Packet.EncryptType;
+	DNPacketSize &Size = Packet.Size;						//User Layer Size
+	DNEncryptType &EncryptType = Packet.EncryptType;		//User Layer EncryptType
 
-	DNCommand &Cmd = Packet.Request.Cmd;
-	DNMessageID &ID = Packet.Request.ID;
-	DNData *Data = Packet.Request.Data;
+	DNCommand &Cmd = Packet.Request.Cmd;					//User Layer Command
+	DNMessageID &ID = Packet.Request.ID;					//Packet Layer ID
+	DNData *Data = Packet.Request.Data;						//User Layer Data
 
-	DSocketAddrIn* Addr;
+	DSocketAddrIn* Addr;									//User Layer IP Address
 };
