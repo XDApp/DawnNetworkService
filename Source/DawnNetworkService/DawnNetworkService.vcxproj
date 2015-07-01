@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="DDgramSocket.h" />
     <ClInclude Include="DDgramSocketI.h" />
+    <ClInclude Include="DException.h" />
     <ClInclude Include="DNCmd.h" />
     <ClInclude Include="DNCmdConnect.h" />
     <ClInclude Include="DNCmdEcho.h" />
@@ -178,6 +179,8 @@
     <ClInclude Include="DNPacketLayer.h" />
     <ClInclude Include="DNServiceManager.h" />
     <ClInclude Include="DNUserLayer.h" />
+    <ClInclude Include="DRSA.h" />
+    <ClInclude Include="DRSAKey.h" />
     <ClInclude Include="DSocketAddress.h" />
     <ClInclude Include="DSocketAddrIn.h" />
     <ClInclude Include="DSocketBuffer.h" />
@@ -192,6 +195,7 @@
     <ClCompile Include="DawnNetworkService.cpp" />
     <ClCompile Include="DDgramSocket.cpp" />
     <ClCompile Include="DDgramSocketI.cpp" />
+    <ClCompile Include="DException.cpp" />
     <ClCompile Include="DNCmd.cpp" />
     <ClCompile Include="DNCmdConnect.cpp" />
     <ClCompile Include="DNCmdEcho.cpp" />
@@ -208,6 +212,8 @@
     <ClCompile Include="DNPacketLayer.cpp" />
     <ClCompile Include="DNServiceManager.cpp" />
     <ClCompile Include="DNUserLayer.cpp" />
+    <ClCompile Include="DRSA.cpp" />
+    <ClCompile Include="DRSAKey.cpp" />
     <ClCompile Include="DSocketAddress.cpp" />
     <ClCompile Include="DSocketAddrIn.cpp" />
     <ClCompile Include="DSocketBuffer.cpp" />

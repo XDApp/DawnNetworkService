@@ -99,6 +99,15 @@
     <ClInclude Include="DNCmdConnect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DRSA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DRSAKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -180,6 +189,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DNCmdConnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DRSA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DRSAKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

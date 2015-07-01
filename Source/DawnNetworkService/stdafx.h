@@ -29,6 +29,7 @@
 #include <openssl/err.h>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
+#include <openssl/rand.h>
 
 #pragma comment(lib, "libeay32.lib")
 #pragma comment(lib, "ssleay32.lib")

@@ -2,7 +2,7 @@
 #include "DNCmdConnect.h"
 
 
-DNCmdConnect::DNCmdConnect()
+DNCmdConnect::DNCmdConnect(DNLayerService* service) :DNCmd(service)
 {
 }
 

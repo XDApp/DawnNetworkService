@@ -9,8 +9,8 @@ class DNCmdConnect :
 public:
 	DNCmdConnect(DNLayerService* service);
 	~DNCmdConnect();
-	virtual void Send(DSocketAddrIn *Addr);
-	virtual void Recv(DNTransData* Data);
+	virtual void Send(DSocketAddrIn *Addr) = 0;
+	virtual void Recv(DNTransData* Data) = 0;
 };
 
 class DNCmdConnectReply :
@@ -19,6 +19,6 @@ class DNCmdConnectReply :
 public:
 	DNCmdConnectReply(DNLayerService* service);
 	~DNCmdConnectReply();
-	virtual void Send(DSocketAddrIn *Addr);
-	virtual void Recv(DNTransData* Data);
+	virtual void Send(DSocketAddrIn *Addr) = 0;
+	virtual void Recv(DNTransData* Data) = 0;
 };
