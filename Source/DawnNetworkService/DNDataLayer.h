@@ -9,5 +9,8 @@ public:
 
 	void Receive(DNTransData *Data);
 	void Send(DNTransData *Data);
+
+	void EncryptData(DNTransData *Data);
+	void DecryptData(DNTransData *Data);
 };
 

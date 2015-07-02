@@ -4,6 +4,7 @@
 #include "DNLayerService.h"
 #include "DNCmdProcessor.h"
 #include "DSocketAddrIn.h"
+#include "DNEventManager.h"
 
 DNCmdToken::DNCmdToken(DNLayerService* service) :DNCmd(service)
 {
@@ -30,13 +31,16 @@ void DNCmdToken::Recv(DNTransData* Data)
 	Cmd->Send(Data->Addr->Clone());
 }
 
-DNCmdTokenReply::DNCmdTokenReply(DNLayerService* service) :DNCmd(service)
+DNCmdTokenReply::DNCmdTokenReply(DNLayerService* service) 
+	:DNCmd(service),
+	WhenRecv(new DNEventManager())
 {
 }
 
 
 DNCmdTokenReply::~DNCmdTokenReply()
 {
+	delete WhenRecv;
 }
 
 const int TokenSize = 20;
@@ -56,14 +60,16 @@ void DNCmdTokenReply::Send(DSocketAddrIn *Addr)
 		if (_char >= 10)_Target = static_cast<char>(_char + 'a' - 10);
 	}
 	Data->Size = TokenSize;
+
+	char tmp[30];
+	strncpy_s(tmp, Data->Data, Data->Size);
+	std::cout << "Sending: " << tmp << std::endl;
 	this->Service->UserLayer->Send(Data);
+
 }
 
 void DNCmdTokenReply::Recv(DNTransData* Data)
 {
-	DNCmdTokenReply *Cmd = dynamic_cast<DNCmdTokenReply*>(this->Service->Processor->GetCmd(DNCmdType::ReplyEcho));
-	char tmp[TokenSize + 10];
-	strncpy_s(tmp, Data->Data, Data->Size);
-	std::cout << tmp << std::endl;
+	this->WhenRecv->Call(Data);
 }
 

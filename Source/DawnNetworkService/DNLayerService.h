@@ -3,6 +3,7 @@
 class DSocket;
 class DNLayer;
 class DNCmdProcessor;
+class DConfig;
 
 class DNLayerService
 {
@@ -19,5 +20,6 @@ public:
 	std::mutex SocketLock;
 
 	DNCmdProcessor *Processor;
+	DConfig *Config;
 };
 

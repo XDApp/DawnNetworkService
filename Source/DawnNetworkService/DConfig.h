@@ -14,5 +14,12 @@ public:
 	std::string GetDefaultPath() const;
 	void Load();
 	void Save();
+
+	const std::string &pubKeyPath;
+	const std::string &priKeyPath;
+	const std::string &priKeyPassword;
+
+	EVP_PKEY* PriKey;
+	EVP_PKEY* PubKey;
 };
 

@@ -4,6 +4,9 @@
 #include "DRSA.h"
 
 DConfig::DConfig()
+	:pubKeyPath(PubKeyPath),
+	priKeyPassword(PriKeyPassword),
+	priKeyPath(PriKeyPath)
 {
 }
 
@@ -14,32 +17,43 @@ DConfig::~DConfig()
 
 void DConfig::Load(const std::string &path)
 {
+	using namespace rapidjson;
+	FILE* fp = fopen(path.c_str(), "rb");
+	char readBuffer[65536];
+	FileReadStream fStream(fp, readBuffer, sizeof(readBuffer));
+	Document d;
+	d.ParseStream(fStream);
+	//RSA
+	std::string CurrentPath = DResource::UnicodeToANSI(DResource::GetPath(nullptr)) + "\\";
+	this->PubKey = DRSA::ToEVP(DRSA::LoadPubKey(CurrentPath + d["Key"]["PublicKeyPath"].GetString()));
+	this->PriKey = DRSA::ToEVP(DRSA::LoadPriKey(CurrentPath + d["Key"]["PrivateKeyPath"].GetString(), d["Key"]["PrivateKeyPassword"].GetString()));
+	fclose(fp);
 }
 
 void DConfig::Save(const std::string &path)
 {
 	using namespace rapidjson;
-	StringBuffer s;
-	Writer<StringBuffer> writer(s);
+	FILE* fp = fopen(path.c_str(), "wb");
+	char writeBuffer[65536];
+	FileWriteStream fStream(fp, writeBuffer, sizeof(writeBuffer));
+
+	Writer<FileWriteStream> writer(fStream);
 	{
-		writer.StartObject();
-		{
 			writer.StartObject();
-			writer.String("PublicKeyPath");
-			writer.Key(this->PubKeyPath.c_str());
-			writer.String("PrivateKeyPath");
-			writer.Key(this->PriKeyPath.c_str());
-			writer.String("PrivateKeyPassword");
-			writer.Key(this->PriKeyPassword.c_str());
+			writer.Key("Key");
+			{
+				writer.StartObject();
+				writer.String("PublicKeyPath");
+				writer.Key(this->PubKeyPath.c_str());
+				writer.String("PrivateKeyPath");
+				writer.Key(this->PriKeyPath.c_str());
+				writer.String("PrivateKeyPassword");
+				writer.Key(this->PriKeyPassword.c_str());
+				writer.EndObject();
+			}
 			writer.EndObject();
-		}
-		{
-			writer.StartObject();
-			writer.EndObject();
-		}
-		writer.EndObject();
 	}
-	std::cout << s.GetString() << std::endl;
+	fclose(fp);
 }
 
 std::string DConfig::GetDefaultPath() const

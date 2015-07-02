@@ -2,6 +2,7 @@
 #include "DNServiceManager.h"
 #include "DNLayerService.h"
 
+#include "DConfig.h"
 #include "DNNetworkLayer.h"
 #include "DNDataLayer.h"
 #include "DNPacketLayer.h"
@@ -36,6 +37,9 @@ void DNServiceManager::RegisterCommands()
 
 void DNServiceManager::RunServ()
 {
+	config = new DConfig();
+	config->Load();
+
 	this->Service = new DNLayerService;
 
 	DNNetworkLayer *networkLayer = new DNNetworkLayer(DNServiceManager::Service);
@@ -52,6 +56,8 @@ void DNServiceManager::RunServ()
 
 	this->Service->Processor = new DNCmdProcessor();
 	this->RegisterCommands();
+
+	this->Service->Config = config;
 
 	DSocketSystem::Initialize();
 
@@ -72,13 +78,15 @@ void DNServiceManager::StopServ()
 	delete this->Service->PacketLayer;
 	delete this->Service->CMDLayer;
 	delete this->Service->UserLayer;
+
+	delete this->Service->Config;
 	std::cout << "[Log] Dawn Network Service Disposed" << std::endl;
 }
 
 void DNServiceManager::RunSocket()
 {
 	this->Service->ListenSocket = new DDgramSocketI();
-	this->ListenAddr = new DSocketAddrIn(8000);
+	this->ListenAddr = new DSocketAddrIn(6000);
 	this->Service->ListenSocket->Bind(this->ListenAddr);
 	std::cout << "[Log] Socket Initialized" << std::endl;
 	this->Receiving = true;

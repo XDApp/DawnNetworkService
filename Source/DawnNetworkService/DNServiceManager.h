@@ -3,6 +3,8 @@
 class DSocketAddrIn;
 class DDgramSocket;
 class DNLayerService;
+class DConfig;
+
 class DNServiceManager
 {
 public:
@@ -23,5 +25,7 @@ private:
 	void StopSocket();
 
 	void RegisterCommands();
+
+	DConfig* config;
 };
 

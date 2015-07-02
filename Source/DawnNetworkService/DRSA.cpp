@@ -151,14 +151,12 @@ int DRSA::RSAEncrypt(EVP_PKEY *key, const unsigned char *orig_data, size_t orig_
 	if (ctx == nullptr)
 	{
 		throw new DException("ras_pubkey_encryptfailed to open ctx.");
-		EVP_PKEY_free(key);
 		return -1;
 	}
 
 	if (EVP_PKEY_encrypt_init(ctx) <= 0)
 	{
 		throw new DException("ras_pubkey_encryptfailed to EVP_PKEY_encrypt_init.");
-		EVP_PKEY_free(key);
 		return -1;
 	}
 
@@ -166,18 +164,14 @@ int DRSA::RSAEncrypt(EVP_PKEY *key, const unsigned char *orig_data, size_t orig_
 		enc_data,
 		&enc_data_len,
 		orig_data,
-		orig_data_len) <= 0)
+		orig_data_len) < 0)
 	{
 		throw new DException("ras_pubkey_encryptfailed to EVP_PKEY_encrypt.");
 		EVP_PKEY_CTX_free(ctx);
-		EVP_PKEY_free(key);
-
 		return -1;
 	}
 
 	EVP_PKEY_CTX_free(ctx);
-	EVP_PKEY_free(key);
-
 	return 0;
 }
 
@@ -191,14 +185,12 @@ int DRSA::RSADecrypt(EVP_PKEY *key, const unsigned char *enc_data, size_t enc_da
 	if (ctx == nullptr)
 	{
 		throw new DException("ras_prikey_decryptfailed to open ctx.");
-		EVP_PKEY_free(key);
 		return -1;
 	}
 
 	if (EVP_PKEY_decrypt_init(ctx) <= 0)
 	{
 		throw new DException("ras_prikey_decryptfailed to EVP_PKEY_decrypt_init.");
-		EVP_PKEY_free(key);
 		return -1;
 	}
 
@@ -206,17 +198,13 @@ int DRSA::RSADecrypt(EVP_PKEY *key, const unsigned char *enc_data, size_t enc_da
 		orig_data,
 		&orig_data_len,
 		enc_data,
-		enc_data_len) <= 0)
+		enc_data_len) < 0)
 	{
 		throw new DException("ras_prikey_decryptfailed to EVP_PKEY_decrypt.");
 		EVP_PKEY_CTX_free(ctx);
-		EVP_PKEY_free(key);
-
 		return -1;
 	}
 
 	EVP_PKEY_CTX_free(ctx);
-	EVP_PKEY_free(key);
-
 	return 0;
 }

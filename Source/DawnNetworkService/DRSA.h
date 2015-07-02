@@ -22,9 +22,7 @@ public:
 
 	static EVP_PKEY* ToEVP(DRSAKey *Key);
 
-	int RSADecrypt(EVP_PKEY *key, const unsigned char *enc_data, size_t enc_data_len,
-		unsigned char *orig_data, size_t &orig_data_len);
-	int RSAEncrypt(EVP_PKEY *key, const unsigned char *orig_data, size_t orig_data_len,
-		unsigned char *enc_data, size_t &enc_data_len);
+	static int RSADecrypt(EVP_PKEY *key, const unsigned char *enc_data, size_t enc_data_len, unsigned char *orig_data, size_t &orig_data_len);
+	static int RSAEncrypt(EVP_PKEY *key, const unsigned char *orig_data, size_t orig_data_len, unsigned char *enc_data, size_t &enc_data_len);
 };
 

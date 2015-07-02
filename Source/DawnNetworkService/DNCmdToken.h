@@ -1,5 +1,7 @@
 #pragma once
 #include "DNCmd.h"
+
+class DNEventManager;
 class DNCmdToken :
 	public DNCmd
 {
@@ -18,5 +20,7 @@ public:
 	~DNCmdTokenReply();
 	virtual void Send(DSocketAddrIn *Addr);
 	virtual void Recv(DNTransData* Data);
+
+	DNEventManager *WhenRecv;
 };
 

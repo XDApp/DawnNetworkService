@@ -1,6 +1,6 @@
 #pragma once
 
-typedef unsigned short DNPacketSize;
+typedef size_t DNPacketSize;
 typedef unsigned char DNCommand;
 typedef unsigned char DNMessageID;
 typedef char DNData;

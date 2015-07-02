@@ -40,8 +40,28 @@ int main(int argc, char* argv[])
 
 	Manager->StopServ();
 	*/
-	DConfig *config = new DConfig();
-	config->Generate();
+
+
+	DNServiceManager *Manager = new DNServiceManager();
+	Manager->RunServ();
+	DNUserLayer *userLayer = dynamic_cast<DNUserLayer*>(Manager->Service->UserLayer);
+
+	DNCmdTokenReply* RTokenCmd = dynamic_cast<DNCmdTokenReply*>(Manager->Service->Processor->GetCmd(DNCmdType::ReplyToken));
+	DNCmdToken* TokenCmd = dynamic_cast<DNCmdToken*>(Manager->Service->Processor->GetCmd(DNCmdType::Token));
+	
+	RTokenCmd->WhenRecv->AddHandler(new DNEventHandler([](DNTransData *Data){
+		char tmp[30];
+		strncpy_s(tmp, Data->Data, Data->Size);
+		std::cout << tmp<<std::endl;
+	}));
+TokenCmd->Send(new DSocketAddrIn("192.168.0.105", 6000));
+	while (true)
+	{
+		
+		Sleep(1000);
+	}
+	Manager->StopServ();
+
 	system("PAUSE");
 	return 0;
 }
