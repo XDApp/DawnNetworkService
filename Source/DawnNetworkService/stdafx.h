@@ -30,6 +30,8 @@
 #include <openssl/pem.h>
 #include <openssl/x509.h>
 #include <openssl/rand.h>
+#include <openssl/evp.h>
+#include <openssl/engine.h>
 
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>

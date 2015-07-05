@@ -6,7 +6,9 @@
 DConfig::DConfig()
 	:pubKeyPath(PubKeyPath),
 	priKeyPassword(PriKeyPassword),
-	priKeyPath(PriKeyPath)
+	priKeyPath(PriKeyPath),
+	PubKey(nullptr),
+	PriKey(nullptr)
 {
 }
 
@@ -85,7 +87,7 @@ void DConfig::Generate()
 	this->PriKeyPassword = DefaultPriKeyPassword;
 
 	DRSA::Randomize();
-	auto key = DRSA::CreateKey(DRSA::GenerateRandString(), 1024);
+	auto key = DRSA::CreateKey(DRSA::GenerateRandString(), 2048);
 	std::string CurrentPath = DResource::UnicodeToANSI(DResource::GetPath(nullptr)) + "\\";
 
 	DRSA::SavePubKey(key, CurrentPath + PubKeyPath);

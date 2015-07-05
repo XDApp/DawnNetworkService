@@ -16,7 +16,7 @@ DNDataLayer::~DNDataLayer()
 
 void DNDataLayer::Receive(DNTransData *Data)
 {
-	DecryptData(Data);
+	//DecryptData(Data);
 	this->Service->CMDLayer->Receive(Data);
 }
 
@@ -30,14 +30,19 @@ void DNDataLayer::EncryptData(DNTransData *Data)
 {
 	char ori[DNPacketLength];
 	strncpy_s(ori, Data->Data, Data->Size);
-	DRSA::RSAEncrypt(this->Service->Config->PubKey, (unsigned char*)(ori), Data->Size, (unsigned char*)(Data->Data), Data->Size);
+	int _oSize = Data->Size;
+	Data->Size = DNRequestLength - 2;
+	DRSA::RSAEncrypt(this->Service->Config->PubKey, (unsigned char*)(ori), _oSize, (unsigned char*)(Data->Data), Data->Size);
+	DecryptData(Data);
 }
 
 void DNDataLayer::DecryptData(DNTransData *Data)
 {
 	char ori[DNPacketLength];
 	strncpy_s(ori, Data->Data, Data->Size);
-	DRSA::RSADecrypt(this->Service->Config->PriKey, (unsigned char*)(ori), Data->Size, (unsigned char*)(Data->Data), Data->Size);
+	int _oSize = Data->Size;
+	Data->Size = DNRequestLength - 2;
+	DRSA::RSADecrypt(this->Service->Config->PriKey, (unsigned char*)(ori), _oSize, (unsigned char*)(Data->Data), Data->Size);
 }
 
 

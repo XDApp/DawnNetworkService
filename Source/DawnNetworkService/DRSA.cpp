@@ -85,7 +85,7 @@ DRSAKey* DRSA::LoadPubKey(const std::string &filename)
 
 	OpenSSL_add_all_algorithms();
 	BIO *bp = BIO_new(BIO_s_file());;
-	BIO_read_filename(bp, filename.c_str());
+	BIO_read_filename(bp, filename.c_str(), "rb");
 	if (bp == nullptr)
 	{
 		throw new DException("open_public_key bio file new error!");
@@ -140,12 +140,12 @@ EVP_PKEY* DRSA::ToEVP(DRSAKey *Key)
 	return evp_key;
 }
 
-
 int DRSA::RSAEncrypt(EVP_PKEY *key, const unsigned char *orig_data, size_t orig_data_len,
 	unsigned char *enc_data, size_t &enc_data_len)
 {
 	EVP_PKEY_CTX *ctx = nullptr;
 	OpenSSL_add_all_ciphers();
+	OpenSSL_add_all_algorithms();
 
 	ctx = EVP_PKEY_CTX_new(key, nullptr);
 	if (ctx == nullptr)
@@ -156,17 +156,35 @@ int DRSA::RSAEncrypt(EVP_PKEY *key, const unsigned char *orig_data, size_t orig_
 
 	if (EVP_PKEY_encrypt_init(ctx) <= 0)
 	{
-		throw new DException("ras_pubkey_encryptfailed to EVP_PKEY_encrypt_init.");
+		throw new DException("ras_pubkey_encrypt failed to EVP_PKEY_encrypt_init.");
 		return -1;
 	}
-
+	if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING) <= 0) {
+		throw new DException("ras_pubkey_encrypt failed to set padding.");
+		return -1;
+	}
+	size_t __outlen = 0;
+	if (EVP_PKEY_encrypt(ctx, NULL, &__outlen, orig_data, orig_data_len) <= 0) {
+		throw new DException("ras_pubkey_encrypt failed to determine buffer.");
+		return -1;
+	}
+	if (enc_data_len < __outlen) {
+		throw new DException("ras_pubkey_encrypt buffer too small.");
+		return -1;
+	}
+	std::cout << __outlen << std::endl;
 	if (EVP_PKEY_encrypt(ctx,
 		enc_data,
 		&enc_data_len,
 		orig_data,
-		orig_data_len) < 0)
+		orig_data_len) <= 0)
 	{
-		throw new DException("ras_pubkey_encryptfailed to EVP_PKEY_encrypt.");
+		char buf[1000];
+		ERR_load_ERR_strings();
+		ERR_load_crypto_strings();
+		ERR_error_string(ERR_get_error(), buf);
+		std::cout << buf << std::endl;
+		throw new DException("ras_pubkey_encrypt failed to EVP_PKEY_encrypt.");
 		EVP_PKEY_CTX_free(ctx);
 		return -1;
 	}
@@ -180,27 +198,48 @@ int DRSA::RSADecrypt(EVP_PKEY *key, const unsigned char *enc_data, size_t enc_da
 {
 	EVP_PKEY_CTX *ctx = nullptr;
 	OpenSSL_add_all_ciphers();
+	OpenSSL_add_all_algorithms();
 
 	ctx = EVP_PKEY_CTX_new(key, nullptr);
+
 	if (ctx == nullptr)
 	{
-		throw new DException("ras_prikey_decryptfailed to open ctx.");
+		throw new DException("ras_prikey_decrypt failed to open ctx.");
 		return -1;
 	}
 
 	if (EVP_PKEY_decrypt_init(ctx) <= 0)
 	{
-		throw new DException("ras_prikey_decryptfailed to EVP_PKEY_decrypt_init.");
+		throw new DException("ras_prikey_decrypt failed to EVP_PKEY_decrypt_init.");
+		return -1;
+	}
+	if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING) <= 0) {
+		throw new DException("ras_prikey_decrypt failed to set padding.");
+		return -1;
+	}
+	size_t __outlen = 0;
+	if (EVP_PKEY_decrypt(ctx, NULL, &__outlen, enc_data, enc_data_len) <= 0) {
+		throw new DException("ras_prikey_decrypt failed to determine buffer.");
 		return -1;
 	}
 
+	if (orig_data_len < __outlen) {
+		throw new DException("ras_prikey_decrypt buffer too small.");
+		return -1;
+	}
+	std::cout << __outlen << std::endl;
 	if (EVP_PKEY_decrypt(ctx,
 		orig_data,
 		&orig_data_len,
 		enc_data,
-		enc_data_len) < 0)
+		enc_data_len) <= 0)
 	{
-		throw new DException("ras_prikey_decryptfailed to EVP_PKEY_decrypt.");
+		char buf[1000];
+		ERR_load_ERR_strings();
+		ERR_load_crypto_strings();
+		ERR_error_string(ERR_get_error(), buf);
+		std::cout << buf << std::endl;
+		throw new DException("ras_prikey_decrypt failed to EVP_PKEY_decrypt.");
 		EVP_PKEY_CTX_free(ctx);
 		return -1;
 	}

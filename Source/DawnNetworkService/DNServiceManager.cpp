@@ -38,6 +38,7 @@ void DNServiceManager::RegisterCommands()
 void DNServiceManager::RunServ()
 {
 	config = new DConfig();
+	config->Generate();
 	config->Load();
 
 	this->Service = new DNLayerService;
