@@ -2,6 +2,7 @@
 #include "DConfig.h"
 #include "DResource.h"
 #include "DRSA.h"
+#include "DRSAKey.h"
 
 DConfig::DConfig()
 	:pubKeyPath(PubKeyPath),
@@ -27,8 +28,11 @@ void DConfig::Load(const std::string &path)
 	d.ParseStream(fStream);
 	//RSA
 	std::string CurrentPath = DResource::UnicodeToANSI(DResource::GetPath(nullptr)) + "\\";
-	this->PubKey = DRSA::ToEVP(DRSA::LoadPubKey(CurrentPath + d["Key"]["PublicKeyPath"].GetString()));
-	this->PriKey = DRSA::ToEVP(DRSA::LoadPriKey(CurrentPath + d["Key"]["PrivateKeyPath"].GetString(), d["Key"]["PrivateKeyPassword"].GetString()));
+	DRSAKey* _Pub = DRSA::LoadPubKey(CurrentPath + d["Key"]["PublicKeyPath"].GetString());
+	DRSAKey* _Pri = DRSA::LoadPriKey(CurrentPath + d["Key"]["PrivateKeyPath"].GetString(), d["Key"]["PrivateKeyPassword"].GetString());
+	this->PubKey = DRSA::ToEVP(_Pub);
+	this->PriKey = DRSA::ToEVP(_Pri);
+	std::cout << RSA_check_key(_Pri->GetKey()) << std::endl;
 	fclose(fp);
 }
 
